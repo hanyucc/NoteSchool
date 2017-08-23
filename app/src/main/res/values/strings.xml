@@ -9,4 +9,12 @@
     <string name="search_result">13121231231</string>
     <string name="grade_button">筛选年级</string>\
     <string name="subject_button">筛选科目</string>
+    <string-array name="me_options_1">
+        <item >我的分享</item>
+        <item >历史记录</item>
+    </string-array>
+    <string-array name="me_options_2">
+        <item >反馈</item>
+        <item >关于</item>
+    </string-array>
 </resources>

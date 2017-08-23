@@ -3,9 +3,16 @@ package space.leniumc.noteschool;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.github.pwittchen.infinitescroll.library.InfiniteScrollListener;
+
+import agency.tango.android.avatarview.loader.PicassoLoader;
+import agency.tango.android.avatarview.views.AvatarView;
 
 
 /**
@@ -22,7 +29,6 @@ public class MeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
 
     public MeFragment() {
         // Required empty public constructor
@@ -59,7 +65,13 @@ public class MeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_me, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_me, container, false);
+        AvatarView avatarView = (AvatarView) rootView.findViewById(R.id.avatar_view);
+
+        PicassoLoader imageLoader = new PicassoLoader();
+        // TODO: Get image Url or image from database.
+        imageLoader.loadImage(avatarView, "http://static.zerochan.net/Kagamine.Len.full.2066605.jpg", "Neil");
+        return rootView;
     }
 
 }
