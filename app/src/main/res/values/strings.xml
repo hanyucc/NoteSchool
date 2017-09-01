@@ -10,11 +10,34 @@
     <string name="grade_button">筛选年级</string>\
     <string name="subject_button">筛选科目</string>
     <string-array name="me_options_1">
-        <item >我的分享</item>
-        <item >历史记录</item>
+        <item>我的分享</item>
+        <item>历史记录</item>
     </string-array>
     <string-array name="me_options_2">
-        <item >反馈</item>
-        <item >关于</item>
+        <item>反馈</item>
+        <item>关于</item>
     </string-array>
+    <string-array name="me_options_3">
+        <item>退出登录</item>
+    </string-array>
+    <string name="title_activity_login">登录</string>
+    <string name="download_all">下载所有附件</string>
+    <string name="back">返回</string>
+    <string name="details">详细信息</string>
+    <string name="publish">发布内容</string>
+
+    <string name="title_activity_publish">创建</string>
+    <string name="prompt_title">标题</string>
+    <string name="prompt_description">简介/内容</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_id">用户ID</string>
+    <string name="prompt_password">密码</string>
+    <string name="action_sign_in">注册/登录</string>
+    <string name="action_sign_in_short">登录</string>
+    <string name="error_invalid_id">用户ID不合法</string>
+    <string name="error_invalid_password">密码长度过短</string>
+    <string name="error_incorrect_password">用户ID或密码错误</string>
+    <string name="error_field_required">必填</string>
+
 </resources>

@@ -35,5 +35,6 @@ dependencies {
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
     compile 'agency.tango.android:avatar-view-picasso:0.0.2'
     compile 'com.github.pwittchen:infinitescroll:0.0.1'
+    compile 'com.github.jd-alexander:LikeButton:0.2.1'
     testCompile 'junit:junit:4.12'
 }

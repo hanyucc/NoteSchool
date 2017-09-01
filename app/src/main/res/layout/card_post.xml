@@ -5,9 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
-
     <android.support.v7.widget.CardView
+        android:id="@+id/card_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_tiny"
@@ -51,12 +50,11 @@
                 android:id="@+id/description_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="6"
+                android:maxLines="7"
                 android:layout_below="@id/avatar_view_post"
                 android:layout_marginBottom="@dimen/spacing_normal"
                 android:layout_marginEnd="@dimen/spacing_normal"
                 android:layout_marginStart="@dimen/spacing_normal"
-                android:scrollbars="vertical"
                 android:text="0"
                 android:textSize="14sp" />
 
@@ -67,9 +65,9 @@
                 android:layout_below="@id/description_text_view"
                 android:layout_marginBottom="@dimen/spacing_normal"
                 android:layout_marginStart="@dimen/spacing_normal"
-                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_normal"
                 android:layout_marginEnd="@dimen/spacing_tiny"
-                android:text="Files attached "
+                android:text="附件共"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -89,12 +87,33 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_normal"
                 android:layout_marginStart="@dimen/spacing_tiny"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:text=""
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="个"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_alignBaseline="@+id/attachment_count_text_view"
+                android:layout_alignBaseline="@id/attachment_count_text_view"
                 android:layout_toEndOf="@id/attachment_count_text_view" />
+
+            <com.like.LikeButton
+                android:id="@+id/fav_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon_type="star"
+                app:icon_size="25dp"
+                app:anim_scale_factor="2"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/description_text_view"/>
+
+            <com.like.LikeButton
+                android:id="@+id/upvote_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon_type="thumb"
+                app:icon_size="25dp"
+                app:anim_scale_factor="2"
+                android:layout_toStartOf="@id/fav_button"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:layout_below="@id/description_text_view"/>
 
         </RelativeLayout>
 
