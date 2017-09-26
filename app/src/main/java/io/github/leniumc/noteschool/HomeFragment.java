@@ -1,6 +1,7 @@
-package space.leniumc.noteschool;
+package io.github.leniumc.noteschool;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -104,7 +105,8 @@ public class HomeFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getContext(), PublishActivity.class);
+                getContext().startActivity(intent);
             }
         });
 

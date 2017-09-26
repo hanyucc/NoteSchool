@@ -1,11 +1,9 @@
-package space.leniumc.noteschool;
+package io.github.leniumc.noteschool;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,6 @@ import android.widget.TextView;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
-import java.io.Serializable;
 import java.util.List;
 
 import agency.tango.android.avatarview.loader.PicassoLoader;

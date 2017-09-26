@@ -1,6 +1,5 @@
-package space.leniumc.noteschool;
+package io.github.leniumc.noteschool;
 
-import android.media.Image;
 import android.os.Parcel;
 import android.os.Parcelable;
 

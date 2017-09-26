@@ -1,4 +1,4 @@
-package space.leniumc.noteschool;
+package io.github.leniumc.noteschool;
 
 /**
  * Created by 陈涵宇 on 2017/8/23.

@@ -1,4 +1,4 @@
-package space.leniumc.noteschool;
+package io.github.leniumc.noteschool;
 
 import org.junit.Test;
 

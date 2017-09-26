@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="space.leniumc.noteschool.MeFragment">
+    tools:context="io.github.leniumc.noteschool.MeFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -78,7 +78,7 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@id/avatar_view"
             android:layout_margin="@dimen/spacing_normal"
-            android:text="陈涵宇"
+            android:text="name"
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:textSize="24sp"/>

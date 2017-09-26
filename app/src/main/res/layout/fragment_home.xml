@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="space.leniumc.noteschool.HomeFragment">
+    tools:context="io.github.leniumc.noteschool.HomeFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -25,6 +25,6 @@
         android:layout_margin="@dimen/spacing_normal"
         android:clickable="true"
         app:fabSize="normal"
-        app:srcCompat="@drawable/ic_add_white_24dp"/>
+        app:srcCompat="@drawable/ic_add_white_24dp" />
 
 </FrameLayout>

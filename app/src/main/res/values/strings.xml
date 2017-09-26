@@ -25,10 +25,12 @@
     <string name="back">返回</string>
     <string name="details">详细信息</string>
     <string name="publish">发布内容</string>
+    <string name="send">发送</string>
 
     <string name="title_activity_publish">创建</string>
     <string name="prompt_title">标题</string>
     <string name="prompt_description">简介/内容</string>
+    <string name="add_attachment">添加附件</string>
 
     <!-- Strings related to login -->
     <string name="prompt_id">用户ID</string>
