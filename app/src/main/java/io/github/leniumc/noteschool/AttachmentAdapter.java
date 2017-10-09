@@ -32,7 +32,7 @@ class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.ViewHolde
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.nameTextView.setText(dataList.get(position).getAttachmentName());
-        holder.sizeTextView.setText(String.valueOf(dataList.get(position).getAttachmentSize()));
+        holder.sizeTextView.setText(dataList.get(position).getAttachmentSize());
     }
 
     @Override
@@ -45,8 +45,8 @@ class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.ViewHolde
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            nameTextView = (TextView) itemView.findViewById(R.id.attachment_name);
-            sizeTextView = (TextView) itemView.findViewById(R.id.attachment_size);
+            nameTextView = itemView.findViewById(R.id.attachment_name);
+            sizeTextView = itemView.findViewById(R.id.attachment_size);
         }
     }
 }

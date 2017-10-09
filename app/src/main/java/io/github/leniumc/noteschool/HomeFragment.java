@@ -67,9 +67,9 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_home);
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
-        floatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.add_button);
+        RecyclerView recyclerView = rootView.findViewById(R.id.recycler_view_home);
+        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+        floatingActionButton = rootView.findViewById(R.id.add_button);
 
         if (dataList == null) {
             dataList = new ArrayList<>();

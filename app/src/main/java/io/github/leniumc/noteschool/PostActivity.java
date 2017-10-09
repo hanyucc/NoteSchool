@@ -28,11 +28,11 @@ public class PostActivity extends AppCompatActivity {
         Intent intent = getIntent();
         PostData postData = intent.getExtras().getParcelable("everything");
 
-        avatarView = (AvatarView) findViewById(R.id.avatar_view_post);
-        nameTextView = (TextView) findViewById(R.id.name_text_view);
-        gradeTextView = (TextView) findViewById(R.id.grade_text_view);
-        descriptionTextView = (TextView) findViewById(R.id.description_text_view);
-        attachmentCountTextView = (TextView) findViewById(R.id.attachment_count_text_view);
+        avatarView = findViewById(R.id.avatar_view_post);
+        nameTextView = findViewById(R.id.name_text_view);
+        gradeTextView = findViewById(R.id.grade_text_view);
+        descriptionTextView = findViewById(R.id.description_text_view);
+        attachmentCountTextView = findViewById(R.id.attachment_count_text_view);
         PicassoLoader imageLoader = new PicassoLoader();
 
         if (postData != null) {
@@ -45,7 +45,7 @@ public class PostActivity extends AppCompatActivity {
             attachmentUrls = postData.getAttachmentUrls();
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
 

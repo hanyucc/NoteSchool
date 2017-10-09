@@ -9,16 +9,16 @@ import android.os.Parcelable;
 
 class AttachmentData implements Parcelable {
     private String attachmentName;
-    private long attachmentSize;
+    private String attachmentSize;
 
-    public AttachmentData(String attachmentName, long attachmentSize) {
+    public AttachmentData(String attachmentName, String attachmentSize) {
         this.attachmentName = attachmentName;
         this.attachmentSize = attachmentSize;
     }
 
     private AttachmentData(Parcel in) {
         attachmentName = in.readString();
-        attachmentSize = in.readInt();
+        attachmentSize = in.readString();
     }
 
     public String getAttachmentName() {
@@ -29,11 +29,11 @@ class AttachmentData implements Parcelable {
         this.attachmentName = attachmentName;
     }
 
-    public long getAttachmentSize() {
+    public String getAttachmentSize() {
         return attachmentSize;
     }
 
-    public void setAttachmentSize(int attachmentSize) {
+    public void setAttachmentSize(String attachmentSize) {
         this.attachmentSize = attachmentSize;
     }
 
@@ -45,7 +45,7 @@ class AttachmentData implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(attachmentName);
-        dest.writeLong(attachmentSize);
+        dest.writeString(attachmentSize);
     }
 
     public static final Parcelable.Creator<AttachmentData> CREATOR = new Parcelable.Creator<AttachmentData>() {

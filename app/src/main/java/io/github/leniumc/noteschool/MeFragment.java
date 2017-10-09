@@ -50,7 +50,7 @@ public class MeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_me, container, false);
-        AvatarView avatarView = (AvatarView) rootView.findViewById(R.id.avatar_view);
+        AvatarView avatarView = rootView.findViewById(R.id.avatar_view);
 
         PicassoLoader imageLoader = new PicassoLoader();
         // TODO: Get image Url or image from database.

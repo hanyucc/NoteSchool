@@ -114,15 +114,14 @@ class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            avatarView = (AvatarView) itemView.findViewById(R.id.avatar_view_post);
-            nameTextView = (TextView) itemView.findViewById(R.id.name_text_view);
-            gradeTextView = (TextView) itemView.findViewById(R.id.grade_text_view);
-            descriptionTextView = (TextView) itemView.findViewById(R.id.description_text_view);
-            attachmentCountTextView = (TextView) itemView.
-                    findViewById(R.id.attachment_count_text_view);
-            favButton = (LikeButton) itemView.findViewById(R.id.fav_button);
-            upvoteButton = (LikeButton) itemView.findViewById(R.id.upvote_button);
-            postCard = (CardView) itemView.findViewById(R.id.card_post);
+            avatarView = itemView.findViewById(R.id.avatar_view_post);
+            nameTextView = itemView.findViewById(R.id.name_text_view);
+            gradeTextView =  itemView.findViewById(R.id.grade_text_view);
+            descriptionTextView = itemView.findViewById(R.id.description_text_view);
+            attachmentCountTextView = itemView.findViewById(R.id.attachment_count_text_view);
+            favButton = itemView.findViewById(R.id.fav_button);
+            upvoteButton = itemView.findViewById(R.id.upvote_button);
+            postCard = itemView.findViewById(R.id.card_post);
         }
     }
 }

@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
             android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            MaterialSearchView searchView = (MaterialSearchView) findViewById(R.id.search_view);
+            MaterialSearchView searchView = findViewById(R.id.search_view);
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     if (searchView.isSearchOpen()) {
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_home);
 
@@ -78,13 +78,13 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.content, homeFragment);
         fragmentTransaction.commit();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
 
     @Override
     public void onBackPressed() {
-        MaterialSearchView searchView = (MaterialSearchView) findViewById(R.id.search_view);
+        MaterialSearchView searchView = findViewById(R.id.search_view);
         if (searchView.isSearchOpen()) {
             searchView.closeSearch();
         } else {

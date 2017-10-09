@@ -6,7 +6,6 @@
     <string name="search_hint">在此输入关键词 以空格分隔</string>
     <string name="search_title">搜索</string>
     <string name="settings">设置</string>
-    <string name="search_result">13121231231</string>
     <string name="grade_button">筛选年级</string>\
     <string name="subject_button">筛选科目</string>
     <string-array name="me_options_1">
@@ -20,26 +19,31 @@
     <string-array name="me_options_3">
         <item>退出登录</item>
     </string-array>
-    <string name="title_activity_login">登录</string>
     <string name="download_all">下载所有附件</string>
     <string name="back">返回</string>
     <string name="details">详细信息</string>
     <string name="publish">发布内容</string>
     <string name="send">发送</string>
 
-    <string name="title_activity_publish">创建</string>
     <string name="prompt_title">标题</string>
     <string name="prompt_description">简介/内容</string>
     <string name="add_attachment">添加附件</string>
+    <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_id">用户ID</string>
+    <string name="prompt_username">姓名</string>
     <string name="prompt_password">密码</string>
-    <string name="action_sign_in">注册/登录</string>
-    <string name="action_sign_in_short">登录</string>
-    <string name="error_invalid_id">用户ID不合法</string>
-    <string name="error_invalid_password">密码长度过短</string>
-    <string name="error_incorrect_password">用户ID或密码错误</string>
-    <string name="error_field_required">必填</string>
+    <string name="action_sign_in">登录</string>
+    <string name="action_register">注册</string>
+    <string name="prompt_grade">年级</string>
+    <string name="select_avatar">选择头像</string>
+    <string name="avatar_unselected">未选择头像</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <!-- Strings related to login -->
 
 </resources>

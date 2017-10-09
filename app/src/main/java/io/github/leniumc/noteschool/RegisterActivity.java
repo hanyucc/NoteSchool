@@ -11,97 +11,51 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.UploadNotificationConfig;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
-public class PublishActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
-    private List<AttachmentData> dataList;
-    private LinearLayoutManager linearLayoutManager;
-    private AttachmentAdapter adapter;
+    private static final boolean AVATAR_SELECTED = false;
     private static final int READ_REQUEST_CODE = 42;
-    private static final int ATTACHMENT_MAX_COUNT = 9;
-    private Button attachmentButton;
-    private List<String> filePaths = new ArrayList<>();
-
+    private Button avatarButton;
+    private String avatarPath = "";
+    private TextView avatarFilename;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_publish);
+        setContentView(R.layout.activity_register);
+        avatarButton = findViewById(R.id.avatar_button);
+    }
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view_publish);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        attachmentButton = findViewById(R.id.attachment_button);
-
-        if (dataList == null) {
-            dataList = new ArrayList<>();
+    public void register(View view) {
+        if (avatarPath.equals("")) {
+            Toast.makeText(this, "未选择头像", Toast.LENGTH_SHORT).show();
+        } else {
+            uploadMultipart(this, avatarPath);
         }
-
-        linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        adapter = new AttachmentAdapter(this, dataList);
-        recyclerView.setAdapter(adapter);
-
-        setSupportActionBar(toolbar);
+        // TODO: Finish implementing this
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.top_menu_publish, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.send) {
-            EditText titleEditText = findViewById(R.id.title_edit_text);
-            EditText descriptionEditText = findViewById(R.id.description_edit_text);
-            String title = titleEditText.getText().toString();
-            String description = descriptionEditText.getText().toString();
-
-            for (String path: filePaths) {
-                uploadMultipart(this, path);
-            }
-            // TODO: Finish implementing this
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void exitActivity(View view) {
-        finish();
-    }
-
-    public void publishPost(String title, String description) {
-
-    }
-
-    public void addAttachment(View view) {
+    public void addAvatar(View view) {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("*/*");
+        intent.setType("image/*");
         startActivityForResult(intent, READ_REQUEST_CODE);
     }
 
@@ -112,39 +66,19 @@ public class PublishActivity extends AppCompatActivity {
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Uri uri = resultData.getData();
             String path = getPath(this, uri);
-            filePaths.add(path);
             if (path != null) {
                 File file = new File(path);
-                dataList.add(new AttachmentData(file.getName(), convertFileSizeUnit(file.length())));
+                avatarPath = path;
+                avatarFilename.setText(file.getName());
             } else {
                 new AlertDialog.Builder(this).setTitle("文件错误")
                         .setMessage("文件选择有误，请尝试更换文件或文件目录")
-                        .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {}
                         });
             }
-
         }
-
-        if (dataList.size() >= ATTACHMENT_MAX_COUNT) {
-            attachmentButton.setVisibility(View.GONE);
-        }
-
-        adapter.notifyDataSetChanged();
     }
-
-
-    public String convertFileSizeUnit(long fileLength) {
-       if (fileLength >= 1e6) {
-           return new DecimalFormat("#.##").format(1.0 * fileLength / 1e6) + "MB";
-       } else if (fileLength >= 1e3) {
-           return new DecimalFormat("#.##").format(1.0 * fileLength / 1e3) + "KB";
-       } else {
-           return new DecimalFormat("#.##").format(1.0 * fileLength) + "B";
-       }
-    }
-
 
     /**
      * Get a file path from a Uri. This will get the the path for Storage Access
@@ -292,12 +226,10 @@ public class PublishActivity extends AppCompatActivity {
         try {
             // starting from 3.1+, you can also use content:// URI string instead of absolute file
             String uploadId =
-                    new MultipartUploadRequest(context, "http://47.94.204.38/upload.php")
+                    new MultipartUploadRequest(context, "http://47.94.204.38/avatar.php")
                             .setUtf8Charset()
                             // starting from 3.1+, you can also use content:// URI string instead of absolute file
                             .addFileToUpload(filePath, "uploaded_file")
-                            .setNotificationConfig(new UploadNotificationConfig()
-                                    .setTitleForAllStatuses(new File(filePath).getName()))
                             .setMaxRetries(2)
                             .setBasicAuth("neil", "lol")
                             .startUpload();
@@ -305,5 +237,4 @@ public class PublishActivity extends AppCompatActivity {
             Log.e("AndroidUploadService", exc.getMessage(), exc);
         }
     }
-
 }
