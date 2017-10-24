@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,13 +28,13 @@ import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.UploadNotificationConfig;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PublishActivity extends AppCompatActivity {
+
+    private static final String SERVER_IP = "http://192.168.0.105/";
 
     private List<AttachmentData> dataList;
     private LinearLayoutManager linearLayoutManager;
@@ -83,7 +82,7 @@ public class PublishActivity extends AppCompatActivity {
             String description = descriptionEditText.getText().toString();
 
             for (String path: filePaths) {
-                uploadMultipart(this, path);
+                uploadMultipart(this, path, 123);
             }
             // TODO: Finish implementing this
         }
@@ -288,11 +287,11 @@ public class PublishActivity extends AppCompatActivity {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
 
-    public void uploadMultipart(final Context context, final String filePath) {
+    public void uploadMultipart(final Context context, final String filePath, final int postId) {
         try {
             // starting from 3.1+, you can also use content:// URI string instead of absolute file
             String uploadId =
-                    new MultipartUploadRequest(context, "http://47.94.204.38/upload.php")
+                    new MultipartUploadRequest(context, SERVER_IP + "upload_file.php")
                             .setUtf8Charset()
                             // starting from 3.1+, you can also use content:// URI string instead of absolute file
                             .addFileToUpload(filePath, "uploaded_file")
@@ -300,6 +299,7 @@ public class PublishActivity extends AppCompatActivity {
                                     .setTitleForAllStatuses(new File(filePath).getName()))
                             .setMaxRetries(2)
                             .setBasicAuth("neil", "lol")
+                            .addParameter("post_id", String.valueOf(postId))
                             .startUpload();
         } catch (Exception exc) {
             Log.e("AndroidUploadService", exc.getMessage(), exc);

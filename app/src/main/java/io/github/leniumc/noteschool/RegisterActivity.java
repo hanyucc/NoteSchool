@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
@@ -17,46 +18,114 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.UploadNotificationConfig;
 
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class RegisterActivity extends AppCompatActivity {
+
+    private static final String SERVER_IP = "http://192.168.0.105/";
 
     private static final boolean AVATAR_SELECTED = false;
     private static final int READ_REQUEST_CODE = 42;
     private Button avatarButton;
     private String avatarPath = "";
     private TextView avatarFilename;
+    private EditText studentIdEditText, usernameEditText, passwordEditText,
+            gradeEditText, descriptionEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         avatarButton = findViewById(R.id.avatar_button);
+        avatarFilename = findViewById(R.id.avatar_file_name);
+        studentIdEditText = findViewById(R.id.student_id);
+        usernameEditText = findViewById(R.id.username);
+        passwordEditText = findViewById(R.id.password);
+        gradeEditText = findViewById(R.id.grade);
+        descriptionEditText = findViewById(R.id.description);
     }
 
     public void register(View view) {
-        if (avatarPath.equals("")) {
+        if (studentIdEditText.getText().toString().trim().length() == 0 ||
+                usernameEditText.getText().toString().trim().length() == 0 ||
+                passwordEditText.getText().toString().trim().length() == 0 ||
+                gradeEditText.getText().toString().trim().length() == 0) {
+            Toast.makeText(this, "信息未填写完整", Toast.LENGTH_SHORT).show();
+        } else if (avatarPath.equals("")) {
             Toast.makeText(this, "未选择头像", Toast.LENGTH_SHORT).show();
         } else {
-            uploadMultipart(this, avatarPath);
+            makeRequest(studentIdEditText.getText().toString(),
+                    usernameEditText.getText().toString(),
+                    passwordEditText.getText().toString(),
+                    gradeEditText.getText().toString(),
+                    descriptionEditText.getText().toString());
         }
-        // TODO: Finish implementing this
+    }
+
+    public void makeRequest(String studentId, String username, String password,
+                            String grade, String description) {
+        String[] args = {studentId, password, username, grade, description};
+        new PostRequestTask().execute(args);
+    }
+
+    private class PostRequestTask extends AsyncTask<String, Void, Integer> {
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            final OkHttpClient client = new OkHttpClient();
+            RequestBody formBody = new FormBody.Builder()
+                    .add("user_id", params[0])
+                    .add("user_password", params[1])
+                    .add("user_name", params[2])
+                    .add("user_grade", params[3])
+                    .add("user_description", params[4])
+                    .build();
+            Request request = new Request.Builder()
+                    .url(SERVER_IP + "create_user.php")
+                    .post(formBody)
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                JSONObject object = new JSONObject(response.body().string());
+                // TODO: get stuff from JSON
+                Log.d("tag", response.body().string());
+                return Integer.parseInt(response.body().string());
+            } catch (Exception e) {
+                e.printStackTrace();
+                return 0;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            uploadMultipart(getApplicationContext(), avatarPath, integer);
+        }
     }
 
     public void addAvatar(View view) {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
-        startActivityForResult(intent, READ_REQUEST_CODE);
+        startActivityForResult(Intent.createChooser(intent, "Select File"), READ_REQUEST_CODE);
     }
 
     @Override
@@ -222,16 +291,18 @@ public class RegisterActivity extends AppCompatActivity {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
 
-    public void uploadMultipart(final Context context, final String filePath) {
+    public void uploadMultipart(final Context context, final String filePath, final int userId) {
         try {
             // starting from 3.1+, you can also use content:// URI string instead of absolute file
             String uploadId =
-                    new MultipartUploadRequest(context, "http://47.94.204.38/avatar.php")
+                    new MultipartUploadRequest(context, SERVER_IP + "upload_avatar.php")
                             .setUtf8Charset()
+                            .setNotificationConfig(new UploadNotificationConfig()
+                                    .setTitleForAllStatuses(new File(filePath).getName()))
                             // starting from 3.1+, you can also use content:// URI string instead of absolute file
                             .addFileToUpload(filePath, "uploaded_file")
                             .setMaxRetries(2)
-                            .setBasicAuth("neil", "lol")
+                            .addParameter("user_id", String.valueOf(userId))
                             .startUpload();
         } catch (Exception exc) {
             Log.e("AndroidUploadService", exc.getMessage(), exc);

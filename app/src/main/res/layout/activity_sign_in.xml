@@ -54,10 +54,10 @@
             android:layout_height="wrap_content">
 
             <AutoCompleteTextView
-                android:id="@+id/username"
+                android:id="@+id/student_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/prompt_username"
+                android:hint="@string/prompt_student_id"
                 android:inputType="text"
                 android:maxLines="1" />
 
@@ -103,7 +103,8 @@
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:text="@string/action_register"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:onClick="startRegister"/>
         </LinearLayout>
 
     </LinearLayout>

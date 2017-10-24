@@ -27,6 +27,8 @@
 
     <string name="prompt_title">标题</string>
     <string name="prompt_description">简介/内容</string>
+    <string name="prompt_student_id">学号</string>
+    <string name="prompt_user_description">用户简介（选填）</string>
     <string name="add_attachment">添加附件</string>
     <string name="title_activity_login">Sign in</string>
 
