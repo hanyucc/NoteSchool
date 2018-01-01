@@ -54,7 +54,7 @@ public class MeFragment extends Fragment {
 
         PicassoLoader imageLoader = new PicassoLoader();
         // TODO: Get image Url or image from database.
-        imageLoader.loadImage(avatarView, "http://static.zerochan.net/Kagamine.Len.full.2066605.jpg", "Neil");
+        imageLoader.loadImage(avatarView, "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Google-favicon-2015.png/150px-Google-favicon-2015.png", "Neil");
 
         return rootView;
     }
@@ -62,6 +62,6 @@ public class MeFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.top_menu_home, menu);
+        inflater.inflate(R.menu.top_menu_settings, menu);
     }
 }

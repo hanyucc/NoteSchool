@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">笔记学派</string>
     <string name="title_home">首页</string>
-    <string name="title_search">搜索</string>
+    <string name="title_ranking">排行榜</string>
     <string name="title_me">个人信息</string>
-    <string name="search_hint">在此输入关键词 以空格分隔</string>
+    <string name="search_hint">下拉刷新以重置搜索</string>
     <string name="search_title">搜索</string>
     <string name="settings">设置</string>
     <string name="grade_button">筛选年级</string>\

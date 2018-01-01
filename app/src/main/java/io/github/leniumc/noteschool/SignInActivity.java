@@ -19,7 +19,7 @@ import okhttp3.Response;
 
 public class SignInActivity extends AppCompatActivity {
 
-    private static final String SERVER_IP = "http://192.168.0.105/";
+    private static final String SERVER_IP = "http://10.8.1.248/NoteSchool/";
 
     private EditText studentIdEditText, passwordEditText;
 

@@ -104,17 +104,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_below="@id/description_text_view"/>
 
-            <com.like.LikeButton
-                android:id="@+id/upvote_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:icon_type="thumb"
-                app:icon_size="25dp"
-                app:anim_scale_factor="2"
-                android:layout_toStartOf="@id/fav_button"
-                android:layout_marginEnd="@dimen/spacing_small"
-                android:layout_below="@id/description_text_view"/>
-
         </RelativeLayout>
 
 

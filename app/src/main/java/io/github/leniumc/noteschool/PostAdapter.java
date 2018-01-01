@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +22,12 @@ import agency.tango.android.avatarview.views.AvatarView;
  * Created by 陈涵宇 on 2017/8/16.
  */
 
-class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     private Context context;
     private List<PostData> dataList;
-    private int[] favPosts, upvotePosts;
+    private int[] favPosts;
 
-    public CustomAdapter(Context context, List<PostData> dataList) {
+    public PostAdapter(Context context, List<PostData> dataList) {
         this.context = context;
         this.dataList = dataList;
     }
@@ -53,26 +54,15 @@ class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
             @Override
             public void liked(LikeButton likeButton) {
                 int postId = dataList.get(holder.getAdapterPosition()).getPostId();
+                Log.d("233", "liked: " + postId);
                 // TODO: add user to fav in database and add post to user fav
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
                 int postId = dataList.get(holder.getAdapterPosition()).getPostId();
+                Log.d("233", "unLiked: " + postId);
                 // TODO: remove user from fav in database and remove post from user fav
-            }
-        });
-        holder.upvoteButton.setOnLikeListener(new OnLikeListener() {
-            @Override
-            public void liked(LikeButton likeButton) {
-                int postId = dataList.get(holder.getAdapterPosition()).getPostId();
-                // TODO: add user to up in database
-            }
-
-            @Override
-            public void unLiked(LikeButton likeButton) {
-                int postId = dataList.get(holder.getAdapterPosition()).getPostId();
-                // TODO: remove user from up in database
             }
         });
         holder.postCard.setOnClickListener(new View.OnClickListener() {
@@ -87,16 +77,10 @@ class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
 
         // TODO: get fav and upvote posts from database
         favPosts = new int[0];
-        upvotePosts = new int[0];
         int currentId = dataList.get(position).getPostId();
         for (int favPost: favPosts) {
             if (favPost == currentId) {
                 holder.favButton.isLiked();
-            }
-        }
-        for (int upvotePost: upvotePosts) {
-            if (upvotePost == currentId) {
-                holder.upvoteButton.isLiked();
             }
         }
     }
@@ -109,7 +93,7 @@ class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public AvatarView avatarView;
         public TextView nameTextView, gradeTextView, descriptionTextView, attachmentCountTextView;
-        public LikeButton favButton, upvoteButton;
+        public LikeButton favButton;
         public CardView postCard;
 
         public ViewHolder(final View itemView) {
@@ -120,7 +104,6 @@ class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
             descriptionTextView = itemView.findViewById(R.id.description_text_view);
             attachmentCountTextView = itemView.findViewById(R.id.attachment_count_text_view);
             favButton = itemView.findViewById(R.id.fav_button);
-            upvoteButton = itemView.findViewById(R.id.upvote_button);
             postCard = itemView.findViewById(R.id.card_post);
         }
     }

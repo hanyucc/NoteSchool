@@ -12,8 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +31,16 @@ public class HomeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
+    private static final String SERVER_IP = "http://192.168.0.105/NoteSchool/";
+
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayoutManager linearLayoutManager;
-    private CustomAdapter adapter;
+    private PostAdapter adapter;
     private FloatingActionButton floatingActionButton;
 
     private List<PostData> dataList;
     private int loadThreshold = 3;
-    private int[] favPosts, upvotePosts;
+    private int[] favPosts;
 
     // TODO: Rename and change types of parameters
 
@@ -78,7 +83,7 @@ public class HomeFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        adapter = new CustomAdapter(getContext(), dataList);
+        adapter = new PostAdapter(getContext(), dataList);
         recyclerView.setAdapter(adapter);
 
         if (dataList.size() == 0) {
@@ -138,7 +143,37 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.top_menu_home, menu);
+        inflater.inflate(R.menu.top_menu_search, menu);
+
+        MaterialSearchView searchView = getActivity().findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Do some magic
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //Do some magic
+                return false;
+            }
+        });
+
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+                //Do some magic
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                //Do some magic
+            }
+        });
+
+        final MenuItem item = menu.findItem(R.id.search);
+        searchView.setMenuItem(item);
     }
 
     public void clearRecyclerView() {

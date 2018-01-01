@@ -34,7 +34,7 @@ import java.util.List;
 
 public class PublishActivity extends AppCompatActivity {
 
-    private static final String SERVER_IP = "http://192.168.0.105/";
+    private static final String SERVER_IP = "http://10.8.1.248/NoteSchool/";
 
     private List<AttachmentData> dataList;
     private LinearLayoutManager linearLayoutManager;
@@ -81,10 +81,7 @@ public class PublishActivity extends AppCompatActivity {
             String title = titleEditText.getText().toString();
             String description = descriptionEditText.getText().toString();
 
-            for (String path: filePaths) {
-                uploadMultipart(this, path, 123);
-            }
-            // TODO: Finish implementing this
+            publishPost(title, description, this);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -93,8 +90,30 @@ public class PublishActivity extends AppCompatActivity {
         finish();
     }
 
-    public void publishPost(String title, String description) {
+    public void publishPost(String title, String description, Context context) {
+        try {
+            MultipartUploadRequest request =
+                    new MultipartUploadRequest(context, SERVER_IP + "create_post.php")
+                            .setUtf8Charset()
+                    // starting from 3.1+, you can also use content:// URI string instead of absolute file
+                            .setMaxRetries(2)
+                            .addParameter("post_user_id", "13010303")
+                            .addParameter("post_user_password", "neil20001110")
+                            // TODO: id and password here
+                            .addParameter("post_title", title)
+                            .addParameter("post_description", description)
+                            .addParameter("post_user_name", "neil");
+            // starting from 3.1+, you can also use content:// URI string instead of absolute file
+            for (String path: filePaths) {
+                request.addFileToUpload(path, "uploaded_files[]")
+                        .setNotificationConfig(new UploadNotificationConfig()
+                                .setTitleForAllStatuses(new File(path).getName()));
+            }
+            String uploadId = request.startUpload();
 
+        } catch (Exception exc) {
+            Log.e("AndroidUploadService", exc.getMessage(), exc);
+        }
     }
 
     public void addAttachment(View view) {
@@ -144,6 +163,11 @@ public class PublishActivity extends AppCompatActivity {
        }
     }
 
+
+    /*
+      All code below are from the open source library aFileChooser by Paul Burke.
+      https://stackoverflow.com/questions/19834842/android-gallery-on-android-4-4-kitkat-returns-different-uri-for-intent-action
+     */
 
     /**
      * Get a file path from a Uri. This will get the the path for Storage Access
@@ -288,22 +312,7 @@ public class PublishActivity extends AppCompatActivity {
     }
 
     public void uploadMultipart(final Context context, final String filePath, final int postId) {
-        try {
-            // starting from 3.1+, you can also use content:// URI string instead of absolute file
-            String uploadId =
-                    new MultipartUploadRequest(context, SERVER_IP + "upload_file.php")
-                            .setUtf8Charset()
-                            // starting from 3.1+, you can also use content:// URI string instead of absolute file
-                            .addFileToUpload(filePath, "uploaded_file")
-                            .setNotificationConfig(new UploadNotificationConfig()
-                                    .setTitleForAllStatuses(new File(filePath).getName()))
-                            .setMaxRetries(2)
-                            .setBasicAuth("neil", "lol")
-                            .addParameter("post_id", String.valueOf(postId))
-                            .startUpload();
-        } catch (Exception exc) {
-            Log.e("AndroidUploadService", exc.getMessage(), exc);
-        }
+
     }
 
 }
