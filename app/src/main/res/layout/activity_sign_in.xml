@@ -92,7 +92,8 @@
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:layout_marginEnd="@dimen/spacing_small"
                 android:text="@string/action_sign_in"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:onClick="login" />
 
             <Button
                 android:id="@+id/register_button"

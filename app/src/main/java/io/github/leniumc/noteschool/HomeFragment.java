@@ -2,6 +2,8 @@ package io.github.leniumc.noteschool;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -18,8 +20,15 @@ import android.view.ViewGroup;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 /**
@@ -127,17 +136,48 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadData(int id) {
-        // TODO: get 10 posts
-        for (int i = id; i < id + 10; i++) {
-            String repeated = new String(new char[100]).replace("\0", String.valueOf(i));
-            String[] default_url = new String[1];
-            default_url[0] = "nothing";
-            PostData data = new PostData(
-                    "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Google-favicon-2015.png/150px-Google-favicon-2015.png",
-                    "Name", "Grade", repeated, default_url, 0, i);
-            dataList.add(data);
+        SharedPreferences preferences = getContext().getSharedPreferences("login_credentials", 0);
+        String studentId = preferences.getString("user_id", null);
+        String password = preferences.getString("password", null);
+        new LoadDataTask().execute(studentId, password, String.valueOf(id));
+    }
+
+    private class LoadDataTask extends AsyncTask<String, Void, String[]> {
+
+        @Override
+        protected String[] doInBackground(String... params) {
+            final OkHttpClient client = new OkHttpClient();
+            RequestBody formBody = new FormBody.Builder()
+                    .add("user_id", params[0])
+                    .add("user_password", params[1])
+                    .add("row_num", params[2])
+                    .build();
+            Request request = new Request.Builder()
+                    .url(SERVER_IP + "get_post.php")
+                    .post(formBody)
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                Log.d("tag", response.body().string());
+                // TODO: complete this
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            String[] str = {"lol", "123"};
+            return str;
         }
-        adapter.notifyDataSetChanged();
+
+        @Override
+        protected void onPostExecute(String... list) {
+            // TODO: get 10 posts
+            for (String item: list) {
+                Log.d("tag", item);
+                // dataList.add(data);
+            }
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override

@@ -10,9 +10,11 @@ import android.os.Parcelable;
 class PostData implements Parcelable {
     private String avatarImageUrl, userName, userGrade, postDescription;
     private String[] attachmentUrls;
-    private int attachmentCount, postId;
+    private int attachmentCount, postId, isLiked;
 
-    public PostData(String avatarImageUrl, String userName, String userGrade, String postDescription, String[] attachmentUrls, int attachmentCount, int postId) {
+    public PostData(String avatarImageUrl, String userName, String userGrade,
+                    String postDescription, String[] attachmentUrls, int attachmentCount,
+                    int postId, int isLiked) {
         this.avatarImageUrl = avatarImageUrl;
         this.userName = userName;
         this.userGrade = userGrade;
@@ -20,6 +22,7 @@ class PostData implements Parcelable {
         this.attachmentUrls = attachmentUrls;
         this.attachmentCount = attachmentCount;
         this.postId = postId;
+        this.isLiked = isLiked;
     }
 
     @Override
@@ -36,6 +39,7 @@ class PostData implements Parcelable {
         dest.writeStringArray(attachmentUrls);
         dest.writeInt(attachmentCount);
         dest.writeInt(postId);
+        dest.writeInt(isLiked);
     }
 
     public static final Parcelable.Creator<PostData> CREATOR = new Parcelable.Creator<PostData>() {
@@ -56,6 +60,7 @@ class PostData implements Parcelable {
         attachmentUrls = in.createStringArray();
         attachmentCount = in.readInt();
         postId = in.readInt();
+        isLiked = in.readInt();
     }
 
     public String getAvatarImageUrl() {
@@ -113,4 +118,13 @@ class PostData implements Parcelable {
     public void setPostId(int postId) {
         this.postId = postId;
     }
+
+    public int getIsLiked() {
+        return isLiked;
+    }
+
+    public void setIsLiked(int isLiked) {
+        this.isLiked = isLiked;
+    }
+
 }

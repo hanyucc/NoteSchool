@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -19,7 +22,7 @@ import okhttp3.Response;
 
 public class SignInActivity extends AppCompatActivity {
 
-    private static final String SERVER_IP = "http://10.8.1.248/NoteSchool/";
+    private static final String SERVER_IP = "http://192.168.0.105/NoteSchool/";
 
     private EditText studentIdEditText, passwordEditText;
 
@@ -30,14 +33,30 @@ public class SignInActivity extends AppCompatActivity {
 
         studentIdEditText = findViewById(R.id.student_id);
         passwordEditText = findViewById(R.id.password);
-
-        // TODO: Finish implementing this
     }
 
     public void login(View view) {
-        String studentId = studentIdEditText.getText().toString(),
-                password = passwordEditText.getText().toString();
-
+        String studentId = studentIdEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+        byte[] bytesOfMessage = new byte[0];
+        try {
+            bytesOfMessage = password.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        byte[] digest = md.digest(bytesOfMessage);
+        StringBuffer sb = new StringBuffer();
+        for (byte b : digest) {
+            sb.append(String.format("%02x", b & 0xff));
+        }
+        password = sb.toString();
+        new PostRequestTask().execute(studentId, password);
     }
 
     private class PostRequestTask extends AsyncTask<String, Void, String[]> {
@@ -56,6 +75,7 @@ public class SignInActivity extends AppCompatActivity {
 
             try (Response response = client.newCall(request).execute()) {
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                Log.d("tag", response.body().toString());
             } catch (Exception e) {
                 e.printStackTrace();
             }

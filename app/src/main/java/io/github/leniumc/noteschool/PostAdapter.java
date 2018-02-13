@@ -25,7 +25,6 @@ import agency.tango.android.avatarview.views.AvatarView;
 class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     private Context context;
     private List<PostData> dataList;
-    private int[] favPosts;
 
     public PostAdapter(Context context, List<PostData> dataList) {
         this.context = context;
@@ -49,6 +48,12 @@ class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.gradeTextView.setText(dataList.get(position).getUserGrade());
         holder.descriptionTextView.setText(dataList.get(position).getPostDescription());
         holder.attachmentCountTextView.setText(String.valueOf(dataList.get(position).getAttachmentCount()));
+
+        if (dataList.get(position).getIsLiked() == 1) {
+            holder.favButton.setLiked(true);
+        } else {
+            holder.favButton.setLiked(false);
+        }
 
         holder.favButton.setOnLikeListener(new OnLikeListener() {
             @Override
@@ -74,15 +79,6 @@ class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 context.startActivity(intent);
             }
         });
-
-        // TODO: get fav and upvote posts from database
-        favPosts = new int[0];
-        int currentId = dataList.get(position).getPostId();
-        for (int favPost: favPosts) {
-            if (favPost == currentId) {
-                holder.favButton.isLiked();
-            }
-        }
     }
 
     @Override

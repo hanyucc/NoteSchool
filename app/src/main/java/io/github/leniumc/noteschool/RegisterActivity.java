@@ -36,6 +36,9 @@ import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 
 import okhttp3.FormBody;
@@ -46,7 +49,7 @@ import okhttp3.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private static final String SERVER_IP = "http://10.8.1.248/NoteSchool/";
+    private static final String SERVER_IP = "http://192.168.0.105/NoteSchool/";
 
     private static final int READ_REQUEST_CODE = 42;
     private String avatarPath = "";
@@ -94,6 +97,24 @@ public class RegisterActivity extends AppCompatActivity {
     public void makeRequest(final Context context, final String filePath,
                             String studentId, String username, String password,
                             String grade, String description) {
+        byte[] bytesOfMessage = new byte[0];
+        try {
+            bytesOfMessage = password.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        byte[] digest = md.digest(bytesOfMessage);
+        StringBuffer sb = new StringBuffer();
+        for (byte b : digest) {
+            sb.append(String.format("%02x", b & 0xff));
+        }
+        password = sb.toString();
         try {
             // starting from 3.1+, you can also use content:// URI string instead of absolute file
             String uploadId =
